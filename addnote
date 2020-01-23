@@ -1,0 +1,42 @@
+#!/bin/bash
+
+USAGE=$(cat <<-EOF
+
+Usage: addnote action [value] [message] [domain]
+    Actions could be add, check, and setdomain\n
+      [value] - value for the set env domain command
+      [message] - value for the add command
+      [domain] - value for the domain
+
+EOF
+)
+
+NO_MESSAGE="No message has been provided for the add command${USAGE}"
+NO_DOMAIN_VALUE="No value provided for the setdomain command${USAGE}"
+
+if [ -z "$1" ]; then
+  echo "$USAGE"
+fi
+
+case "$1" in
+  "add") command="add" ;;
+  "check") command="check" ;;
+  "setdomain") command="setdomain" ;;
+  *) command="no_command" ;;
+esac
+
+if [ "$command" = "no_command" ]; then
+  echo "$USAGE"
+  exit 1
+fi
+
+if [ "$command" = "add" ] && [ -z "$2" ]; then
+  echo "$NO_MESSAGE"
+  exit 1
+elif [ "$command" = "setdomain" ] && [ -z "$2" ]; then
+  echo "$NO_DOMAIN_VALUE"
+  exit 1
+fi
+
+#messval=$2
+#node index.js ${command} -e $msg

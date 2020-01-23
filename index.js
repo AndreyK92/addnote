@@ -43,11 +43,10 @@ const getArgs = args => {
                               })
                              .slice(3)
                              .join(' ')
-                             //.replace(/'.[^\s]*(\s)/g, '[add_note_spacebar]')
                              .replace(/\s+/g, ' ');
 
   let _args = {};
-  args.reduce((acc, val) => {
+  _args = args.reduce((acc, val) => {
     const _val = '-' + val;
 
     if(cmdStr.includes(_val)) {
@@ -57,13 +56,11 @@ const getArgs = args => {
       if(len < 0) 
         len = cmdStr.length;
 
-      return acc.concat(cmdStr.substring(s, len));
+      acc[_val.replace('-', '')] = cmdStr.substring(s, len);
     }
 
     return acc;
-  }, []).map((arg, index) => {
-    _args[args[index]] = arg;
-  });
+  }, {});
 
   return _args;
 };
